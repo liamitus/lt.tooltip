@@ -7,7 +7,7 @@ angular.module('lt.tooltip', [])
     return {
         restrict: 'AE',
         transclude: true,
-        template: '<div class="tooltip"></div><div ng-transclude></div>',
+        template: '<div class="tooltip"></div><span ng-transclude></span>',
         link: function($scope, $el, $attrs) {
             var el = $el[0],
                 $tooltipEl = angular.element(el.querySelector('.tooltip')),
@@ -16,11 +16,11 @@ angular.module('lt.tooltip', [])
             $tooltipEl.html(template);
 
             el.addEventListener('mouseover', function() {
-                $tooltipEl.css('display', 'block');
+                $tooltipEl.addClass('show');
             });
 
             el.addEventListener('mouseout', function() {
-                $tooltipEl.css('display', 'none');
+                $tooltipEl.removeClass('show');
             });
             
             //@TODO - don't forget to destroy the event listeners

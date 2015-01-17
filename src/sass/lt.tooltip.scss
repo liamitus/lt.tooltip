@@ -1,12 +1,15 @@
 .tooltip {
     display: none;
 
-    width: 200px;
-    height: 200px;
+    padding: 10px;
     
-    background-color: salmon;
+    color: #F4F4F8;
+    background-color: #202020;
+    box-shadow: 0 0 1px black;
+    border-radius: 10px;
 
-    .show {
-        display: block;
+    &.show {
+        display: inline-block;
+        color: white;
     }
 }
