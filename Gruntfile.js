@@ -5,9 +5,9 @@ module.exports = function(grunt) {
             dist: {
                 files: [{
                     expand: true,
-                    cwd: 'pub/',
+                    cwd: 'demo/',
                     src: 'sass/*',
-                    dest: 'pub/css',
+                    dest: 'demo/css',
                     flatten: true,
                     ext: '.css'
                 }]     
@@ -19,12 +19,12 @@ module.exports = function(grunt) {
             },
             build: {
                 files: {
-                    'pub/js/build.min.js': [
-                        'pub/js/index.js',
-                        'pub/js/services/*',
-                        'pub/js/filters/*',
-                        'pub/js/directives/*',
-                        'pub/js/controllers/*'
+                    'demo/js/build.min.js': [
+                        'demo/js/index.js',
+                        'demo/js/services/*',
+                        'demo/js/filters/*',
+                        'demo/js/directives/*',
+                        'demo/js/controllers/*'
                     ]
                 }
             }
@@ -32,14 +32,14 @@ module.exports = function(grunt) {
         watch: {
             src: {
                 files: [
-                    'pub/js/*',
-                    'pub/js/directives/*',
-                    'pub/js/services/*',
-                    'pub/js/filters/*',
-                    'pub/js/controllers/*',
-                    'pub/sass/*',
-                    'pub/partials/*',
-                    'pub/index.html'
+                    'demo/js/*',
+                    'demo/js/directives/*',
+                    'demo/js/services/*',
+                    'demo/js/filters/*',
+                    'demo/js/controllers/*',
+                    'demo/sass/*',
+                    'demo/partials/*',
+                    'demo/index.html'
                 ],
                 tasks: ['uglify', 'sass'],
                 options: {
