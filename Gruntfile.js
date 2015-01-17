@@ -10,7 +10,7 @@ module.exports = function(grunt) {
                     dest: 'demo/css',
                     flatten: true,
                     ext: '.css'
-                }]     
+                }]
             }
         },
         uglify: {
@@ -19,27 +19,30 @@ module.exports = function(grunt) {
             },
             build: {
                 files: {
-                    'demo/js/build.min.js': [
-                        'demo/js/index.js',
-                        'demo/js/services/*',
-                        'demo/js/filters/*',
-                        'demo/js/directives/*',
-                        'demo/js/controllers/*'
-                    ]
+                    'demo/js/sampleapp.min.js': 'demo/js/sampleapp.js',
+                    'src/lt.tooltip.min.js':'src/lt.tooltip.js'
                 }
+            }
+        },
+        copy: {
+            build: {
+                files: [{
+                    expand: true,
+                    src: ['bower_components/**'], 
+                    dest: 'src/',
+                }, {
+                    expand: true,
+                    src: ['bower_components/**'], 
+                    dest: 'demo/',
+                }]
             }
         },
         watch: {
             src: {
                 files: [
-                    'demo/js/*',
-                    'demo/js/directives/*',
-                    'demo/js/services/*',
-                    'demo/js/filters/*',
-                    'demo/js/controllers/*',
-                    'demo/sass/*',
-                    'demo/partials/*',
-                    'demo/index.html'
+                    'demo/js/sampleapp.js',
+                    'demo/index.html',
+                    'demo/sass/**',
                 ],
                 tasks: ['uglify', 'sass'],
                 options: {
@@ -51,7 +54,7 @@ module.exports = function(grunt) {
             server: {
                 options: {
                     port: 3000,
-                    keepalive: true
+                    base: 'demo/'
                 }
             }
         }
@@ -61,6 +64,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks('grunt-contrib-copy');
 
-    grunt.registerTask('default', ['uglify', 'sass']);
+    grunt.registerTask('default', ['copy:build', 'uglify', 'sass']);
+    grunt.registerTask('spawn', ['connect', 'watch']);
 }
