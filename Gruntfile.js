@@ -10,6 +10,8 @@ module.exports = function(grunt) {
                     dest: 'demo/css',
                     flatten: true,
                     ext: '.css'
+                }, {
+                    'src/css/lt.tooltip.css' :'src/sass/lt.tooltip.scss'
                 }]
             }
         },
@@ -32,7 +34,7 @@ module.exports = function(grunt) {
                     dest: 'src/',
                 }, {
                     expand: true,
-                    src: ['bower_components/**'], 
+                    src: ['bower_components/**', 'src/lt.tooltip.js', 'src/css/lt.tooltip.css', 'src/css/lt.tooltip.css.map'], 
                     dest: 'demo/',
                 }]
             }
@@ -43,8 +45,9 @@ module.exports = function(grunt) {
                     'demo/js/sampleapp.js',
                     'demo/index.html',
                     'demo/sass/**',
+                    'src/lt.tooltip.js'
                 ],
-                tasks: ['uglify', 'sass'],
+                tasks: ['copy:build', 'uglify', 'sass'],
                 options: {
                     livereload: true 
                 }
@@ -66,6 +69,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-copy');
 
-    grunt.registerTask('default', ['copy:build', 'uglify', 'sass']);
+    grunt.registerTask('default', ['uglify', 'sass', 'copy:build']);
     grunt.registerTask('spawn', ['connect', 'watch']);
 }

@@ -1,0 +1,12 @@
+.tooltip {
+    display: none;
+
+    width: 200px;
+    height: 200px;
+    
+    background-color: salmon;
+
+    .show {
+        display: block;
+    }
+}

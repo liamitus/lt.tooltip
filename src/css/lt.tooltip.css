@@ -1,0 +1,9 @@
+.tooltip {
+  display: none;
+  width: 200px;
+  height: 200px;
+  background-color: salmon; }
+  .tooltip .show {
+    display: block; }
+
+/*# sourceMappingURL=lt.tooltip.css.map */
