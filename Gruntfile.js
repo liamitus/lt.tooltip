@@ -45,9 +45,10 @@ module.exports = function(grunt) {
                     'demo/js/sampleapp.js',
                     'demo/index.html',
                     'demo/sass/**',
-                    'src/lt.tooltip.js'
+                    'src/lt.tooltip.js',
+                    'src/sass/lt.tooltip.scss'
                 ],
-                tasks: ['copy:build', 'uglify', 'sass'],
+                tasks: ['uglify', 'sass', 'copy:build'],
                 options: {
                     livereload: true 
                 }
