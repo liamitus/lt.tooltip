@@ -1,12 +1,19 @@
 .tooltip {
-  display: none;
+  display: inline-block;
+  visibility: hidden;
+  position: absolute;
   padding: 10px;
   color: #F4F4F8;
   background-color: #202020;
   box-shadow: 0 0 1px black;
   border-radius: 10px; }
   .tooltip.show {
-    display: inline-block;
+    visibility: visible;
     color: white; }
+
+.transcluded {
+  display: inline-block;
+  width: 100px;
+  background-color: salmon; }
 
 /*# sourceMappingURL=lt.tooltip.css.map */
