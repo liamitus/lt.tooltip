@@ -5,12 +5,14 @@ module.exports = function(grunt) {
             dist: {
                 files: [{
                     expand: true,
-                    cwd: 'pub/',
+                    cwd: 'demo/',
                     src: 'sass/*',
-                    dest: 'pub/css',
+                    dest: 'demo/css',
                     flatten: true,
                     ext: '.css'
-                }]     
+                }, {
+                    'src/css/lt.tooltip.css' :'src/sass/lt.tooltip.scss'
+                }]
             }
         },
         uglify: {
@@ -19,29 +21,34 @@ module.exports = function(grunt) {
             },
             build: {
                 files: {
-                    'pub/js/build.min.js': [
-                        'pub/js/index.js',
-                        'pub/js/services/*',
-                        'pub/js/filters/*',
-                        'pub/js/directives/*',
-                        'pub/js/controllers/*'
-                    ]
+                    'demo/js/sampleapp.min.js': 'demo/js/sampleapp.js',
+                    'src/lt.tooltip.min.js':'src/lt.tooltip.js'
                 }
+            }
+        },
+        copy: {
+            build: {
+                files: [{
+                    expand: true,
+                    src: ['bower_components/**'], 
+                    dest: 'src/',
+                }, {
+                    expand: true,
+                    src: ['bower_components/**', 'src/lt.tooltip.js', 'src/css/lt.tooltip.css', 'src/css/lt.tooltip.css.map'], 
+                    dest: 'demo/',
+                }]
             }
         },
         watch: {
             src: {
                 files: [
-                    'pub/js/*',
-                    'pub/js/directives/*',
-                    'pub/js/services/*',
-                    'pub/js/filters/*',
-                    'pub/js/controllers/*',
-                    'pub/sass/*',
-                    'pub/partials/*',
-                    'pub/index.html'
+                    'demo/js/sampleapp.js',
+                    'demo/index.html',
+                    'demo/sass/**',
+                    'src/lt.tooltip.js',
+                    'src/sass/lt.tooltip.scss'
                 ],
-                tasks: ['uglify', 'sass'],
+                tasks: ['uglify', 'sass', 'copy:build'],
                 options: {
                     livereload: true 
                 }
@@ -51,7 +58,7 @@ module.exports = function(grunt) {
             server: {
                 options: {
                     port: 3000,
-                    keepalive: true
+                    base: 'demo/'
                 }
             }
         }
@@ -61,6 +68,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks('grunt-contrib-copy');
 
-    grunt.registerTask('default', ['uglify', 'sass']);
+    grunt.registerTask('default', ['uglify', 'sass', 'copy:build']);
+    grunt.registerTask('spawn', ['connect', 'watch']);
 }
