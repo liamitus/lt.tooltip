@@ -4,18 +4,41 @@
 angular.module('lt.tooltip', [])
 
 .directive('tooltip', function() {
-    var TOOLTIP_MARGIN = 10; //@TODO - Move this to config block
 
+    //@TODO - Move this to config block
+    var TOOLTIP_MARGIN = 10;
+    var TOOLTIP_DEFAULT_TEXT = 'This is a tooltip!';
+    var TOOLTIP_DEFAULT_DIRECTION = 'top';
+
+    // Retrieve dimensions for the tooltip itself and the element it's being
+    // applied to. Returns the dimensions as an object.
+    var getDimensions = function ($element) {
+        var el = $element[0],
+            $tooltipEl = angular.element(el.querySelector('.tooltip')),
+            $transcluded = angular.element(el.querySelector('.transcluded')),
+            rect = el.getBoundingClientRect();
+
+        return {
+            top: rect.top,
+            left: rect.left,
+            tooltipHeight: $tooltipEl[0].offsetHeight,
+            tooltipWidth: $tooltipEl[0].offsetWidth,
+            transcludedHeight: $transcluded[0].offsetHeight,
+            transcludedWidth: $transcluded[0].offsetWidth
+        };
+    };
+
+    // Calculate the position of the tooltip. Returns the position as an object.
     var calculatePosition = function(dimensions, direction) {
-        // Always default to top
         var top = dimensions.top,
             left = dimensions.left,
             height = dimensions.tooltipHeight,
             width = dimensions.tooltipWidth,
             transcludedHeight = dimensions.transcludedHeight,
-            transcludedWidth = dimensions.transcludedWidth;
+            transcludedWidth = dimensions.transcludedWidth,
+            topCSS,
+            leftCSS;
 
-        var topCSS, leftCSS;
         switch (direction) {
             case 'right':
                 topCSS = top - (transcludedHeight/2) + 'px';
@@ -47,28 +70,19 @@ angular.module('lt.tooltip', [])
         template: '<div class="tooltip"></div><span class="transcluded" ng-transclude></span>',
         link: function($scope, $el, $attrs) {
             var el = $el[0],
-                rect = el.getBoundingClientRect(),
                 $tooltipEl = angular.element(el.querySelector('.tooltip')),
-                $transcluded = angular.element(el.querySelector('.transcluded'));
+                direction = $attrs.direction || TOOLTIP_DEFAULT_DIRECTION,
+                template = $attrs.template || $attrs.content || TOOLTIP_DEFAULT_TEXT,
+                dimensions,
+                position;
 
-            //OPTIONS
-            var template = $attrs.template || $attrs.content || 'This is a tooltip!',
-                direction = $attrs.direction || 'top';
-
-            //Make sure the template has been put in the DOM before retrieval of dimensions
-            //Otherwise, the dimensions will be reported (incorrectly) without the content
+            // Make sure the template has been put in the DOM before retrieval
+            // of dimensions. Otherwise, the dimensions will be reported
+            // (incorrectly) without the content.
             $tooltipEl.html(template);
 
-            var dimensions = {
-                top: rect.top,
-                left: rect.left,
-                tooltipHeight: $tooltipEl[0].offsetHeight,
-                tooltipWidth: $tooltipEl[0].offsetWidth,
-                transcludedHeight: $transcluded[0].offsetHeight,
-                transcludedWidth: $transcluded[0].offsetWidth
-            };
-
-            var position = calculatePosition(dimensions, direction);
+            dimensions = getDimensions($el),
+            position = calculatePosition(dimensions, direction);
 
             $tooltipEl.css('top', position.top);
             $tooltipEl.css('left', position.left);
