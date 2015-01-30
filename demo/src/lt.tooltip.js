@@ -174,6 +174,8 @@ angular.module('lt.tooltip', [])
 
             positionArrow($arrow, direction);
 
+            positionArrow($arrow, direction);
+
             el.addEventListener('mouseover', function() {
                 $tooltipEl.addClass('show');
             });
