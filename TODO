@@ -4,5 +4,7 @@ template url
 animations
 tests
 spatial awareness
+    on window resize event
+    if none of the directions are available
 cool default CSS
 custom CSS
