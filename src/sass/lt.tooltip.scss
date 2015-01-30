@@ -1,3 +1,5 @@
+$background-default: #202020;
+
 .tooltip {
     display: inline-block;
     visibility: hidden;
@@ -6,13 +8,63 @@
     padding: 10px;
     
     color: #F4F4F8;
-    background-color: #202020;
+    background-color: $background-default;
     box-shadow: 0 0 1px black;
     border-radius: 10px;
 
     &.show {
         visibility: visible;
         color: white;
+    }
+
+    .tooltip-arrow {
+        position: absolute;
+
+        width: 0;
+        height: 0;
+
+        background-color: transparent;
+        border: 5px solid $background-default;
+
+        &.left {
+            left: -5px; //10px - 5px width
+            top: 50%;
+            margin-top: -5px;
+
+            border-top-color: transparent;
+            border-bottom-color: transparent;
+            border-left: none;
+        }
+
+        &.right {
+            left: 100%; 
+            top: 50%;
+            margin-top: -5px;
+
+            border-top-color: transparent;
+            border-bottom-color: transparent;
+            border-right: none;
+        }
+
+        &.bottom {
+            left: 50%;
+            margin-left: -4px;
+            top: 100%;
+
+            border-right-color: transparent;
+            border-left-color: transparent;
+            border-bottom: none;
+        }
+
+        &.top {
+            left: 50%;
+            margin-left: -4px;
+            top: -5px; //10px - 5px width
+
+            border-right-color: transparent;
+            border-left-color: transparent;
+            border-top: none;
+        }
     }
 }
 

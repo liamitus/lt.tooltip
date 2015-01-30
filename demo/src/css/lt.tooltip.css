@@ -10,6 +10,40 @@
   .tooltip.show {
     visibility: visible;
     color: white; }
+  .tooltip .tooltip-arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    background-color: transparent;
+    border: 5px solid #202020; }
+    .tooltip .tooltip-arrow.left {
+      left: -5px;
+      top: 50%;
+      margin-top: -5px;
+      border-top-color: transparent;
+      border-bottom-color: transparent;
+      border-left: none; }
+    .tooltip .tooltip-arrow.right {
+      left: 100%;
+      top: 50%;
+      margin-top: -5px;
+      border-top-color: transparent;
+      border-bottom-color: transparent;
+      border-right: none; }
+    .tooltip .tooltip-arrow.bottom {
+      left: 50%;
+      margin-left: -4px;
+      top: 100%;
+      border-right-color: transparent;
+      border-left-color: transparent;
+      border-bottom: none; }
+    .tooltip .tooltip-arrow.top {
+      left: 50%;
+      margin-left: -4px;
+      top: -5px;
+      border-right-color: transparent;
+      border-left-color: transparent;
+      border-top: none; }
 
 .transcluded {
   display: inline-block;
