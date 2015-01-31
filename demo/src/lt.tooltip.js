@@ -40,34 +40,36 @@ angular.module('lt.tooltip', [])
     // end up completely within the window (and be visible).
     // Returns true if the tooltip will be visible, false otherwise.
     var isWithinVisibleArea = function (position, dimensions) {
-        var top = position.top;
-        var right = position.left + dimensions.tooltipWidth;
-        var bottom = position.top + dimensions.tooltipHeight;
-        var left = position.left;
+        var top = position.top,
+            right = position.left + dimensions.tooltipWidth,
+            bottom = position.top + dimensions.tooltipHeight,
+            left = position.left;
+
         return top >= 0 && left >= 0 &&
             right < $window.innerWidth && bottom < $window.innerHeight;
     };
 
     // Removes a given direction from the given array of directions.
     // Returns the updated array.
-    var removeDirection = function (direction, directions) {
-        return directions.map(function(dir) {
-            if (dir === direction) {
-                return;
-            }
-            return dir;
-        });
+    var removeDirection = function (direction, directionArray) {
+        var index = directionArray.indexOf(direction);
+        if (index > 0) {
+            directionArray.splice(index, 1);
+        }
+        return directionArray;
     };
 
     // Retrieve the next direction in the priority list, as a string.
+    // If the given direction is not found, then the first direction in the
+    // array of directin priorities will be returned.
     var nextDirection = function (direction, directionPriorities) {
-        var directions = directionPriorities || DEFAULT_DIRECTION_PRIORITY;
-        var index = directions.indexOf(direction);
+        var directionArray = directionPriorities || DEFAULT_DIRECTION_PRIORITY,
+            index = directionArray.indexOf(direction);
         ++index;
-        if (index >= directions.length) {
+        if (index >= directionArray.length) {
             index = 0;
         }
-        return directions[index];
+        return directionArray[index];
     };
 
     // Calculate the position of the tooltip, repositions if out of the window.
@@ -116,27 +118,26 @@ angular.module('lt.tooltip', [])
                 $tooltipEl = angular.element(el.querySelector('.tooltip')),
                 direction = $attrs.direction || TOOLTIP_DEFAULT_DIRECTION,
                 template = $attrs.template || $attrs.content || TOOLTIP_DEFAULT_TEXT,
-                directions = DEFAULT_DIRECTION_PRIORITY,
+                directionArray = DEFAULT_DIRECTION_PRIORITY,
                 dimensions,
                 position,
-                withinVisibleArea,
-                counter = 0;
+                withinVisibleArea;
 
             // Make sure the template has been put in the DOM before retrieval
             // of dimensions. Otherwise, the dimensions will be reported
             // (incorrectly) without the content.
             $tooltipEl.html(template);
+            
             dimensions = getDimensions($el);
+            position = calculatePosition(dimensions, direction);
+            withinVisibleArea = isWithinVisibleArea(position, dimensions);
 
             // Recalculate until tooltip is within visible area.
-            while (!withinVisibleArea && counter < directions.length) {
+            while (!withinVisibleArea & directionArray.length > 0) {
+                directionArray = removeDirection(direction, directionArray);
+                direction = nextDirection(direction, directionArray);
                 position = calculatePosition(dimensions, direction);
                 withinVisibleArea = isWithinVisibleArea(position, dimensions);
-                if (!withinVisibleArea) {
-                    directions = removeDirection(direction, directions);
-                    direction = nextDirection(direction, directions);
-                }
-                counter++;
             }
 
             $tooltipEl.css('top', position.top + 'px');
@@ -154,6 +155,5 @@ angular.module('lt.tooltip', [])
         }
     }
 }])
-
 
 })();
