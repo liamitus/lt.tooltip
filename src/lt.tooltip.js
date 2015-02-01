@@ -51,25 +51,25 @@ angular.module('lt.tooltip', [])
 
     // Removes a given direction from the given array of directions.
     // Returns the updated array.
-    var removeDirection = function (direction, directionArray) {
-        var index = directionArray.indexOf(direction);
+    var removeDirection = function (direction, directions) {
+        var index = directions.indexOf(direction);
         if (index > 0) {
-            directionArray.splice(index, 1);
+            directions.splice(index, 1);
         }
-        return directionArray;
+        return directions;
     };
 
     // Retrieve the next direction in the priority list, as a string.
     // If the given direction is not found, then the first direction in the
     // array of directin priorities will be returned.
     var nextDirection = function (direction, directionPriorities) {
-        var directionArray = directionPriorities || DEFAULT_DIRECTION_PRIORITY,
-            index = directionArray.indexOf(direction);
+        var directions = directionPriorities || DEFAULT_DIRECTION_PRIORITY,
+            index = directions.indexOf(direction);
         ++index;
-        if (index >= directionArray.length) {
+        if (index >= directions.length) {
             index = 0;
         }
-        return directionArray[index];
+        return directions[index];
     };
 
     // Calculate the position of the tooltip, repositions if out of the window.
@@ -118,7 +118,7 @@ angular.module('lt.tooltip', [])
                 $tooltipEl = angular.element(el.querySelector('.tooltip')),
                 direction = $attrs.direction || TOOLTIP_DEFAULT_DIRECTION,
                 template = $attrs.template || $attrs.content || TOOLTIP_DEFAULT_TEXT,
-                directionArray = DEFAULT_DIRECTION_PRIORITY,
+                directions = DEFAULT_DIRECTION_PRIORITY,
                 dimensions,
                 position,
                 withinVisibleArea;
@@ -133,9 +133,9 @@ angular.module('lt.tooltip', [])
             withinVisibleArea = isWithinVisibleArea(position, dimensions);
 
             // Recalculate until tooltip is within visible area.
-            while (!withinVisibleArea & directionArray.length > 0) {
-                directionArray = removeDirection(direction, directionArray);
-                direction = nextDirection(direction, directionArray);
+            while (!withinVisibleArea && directions.length) {
+                directions = removeDirection(direction, directions);
+                direction = nextDirection(direction, directions);
                 position = calculatePosition(dimensions, direction);
                 withinVisibleArea = isWithinVisibleArea(position, dimensions);
             }
