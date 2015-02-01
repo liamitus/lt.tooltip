@@ -10,12 +10,16 @@
     <link rel="stylesheet" type="text/css" href="css/main.css">
 </head> 
 <body ng-app="lt.sampleapp">
-    <h1>lt.tooltip Demo</h1>
-    <p>Hey there, this is a demo of <tooltip template="Hey this is a template!" direction="top">Top</tooltip></p>
-    <p>Hey there, this is a demo of <a tooltip content="Hey this is a template!" direction="right">Right</a></p>
-    <p>Hey there, this is a demo of <a tooltip content="Hey this is a template!" direction="bottom">Bottom</a></p>
-    <p>Hey there, this is a demo of <a tooltip content="Hey this is a template!" direction="left">Left</a></p>
-    <p>Hey there, this is a demo of (probably off the page, maybe shrink the browser window!) <a tooltip content="Hey this is a template!" direction="right">Right</a></p>
+    <div id="container">
+        <h1>lt.tooltip Demo</h1>
+        <p>Hey there, this is a demo of <tooltip template="Hey this is a template! This is a really big template." direction="top">Top</tooltip></p>
+        <p>Hey there, this is a demo of <a tooltip content="Hey this is a template!" direction="right">Right</a></p>
+        <p>Hey there, this is a demo of <a tooltip content="Hey this is a template!" direction="bottom">Bottom</a></p>
+        <p>Hey there, this is a demo of <a tooltip content="Hey this is a template!" direction="left">Left</a></p>
+
+        <p>Hey there, this is a demo of <a tooltip content="Hey this is a template! This is a really big template. A really really really big template." direction="left">Left</a></p>
+    </div>
+
     <script src="http://localhost:35729/livereload.js"></script>
 </body>
 </html>
