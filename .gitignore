@@ -1,6 +1,8 @@
 demo/src/
 demo/js/sampleapp.min.js
+demo/css/main.css
 src/lt.tooltip.min.js
+src/css/lt.tooltip.css
 bower_components/
 node_modules/
 .sass-cache/
