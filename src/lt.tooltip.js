@@ -109,9 +109,10 @@ angular.module('lt.tooltip', [])
         }
     };
 
-    var positionArrow = function($arrow, direction) {
+    var positionArrow = function($tooltipArrow, direction) {
         var arrowPlacement;
 
+	// The arrow placement is dependant on the direction of the tooltip
         switch (direction) {
             case 'right':
                 arrowPlacement = 'left';
@@ -120,14 +121,14 @@ angular.module('lt.tooltip', [])
                 arrowPlacement = 'right';
                 break;
             case 'bottom':
-                arrowPlacement = 'top'
+                arrowPlacement = 'top';
                 break;
             case 'top':
             default:
                 arrowPlacement = 'bottom';
         }
 
-        $arrow.addClass(arrowPlacement);
+        $tooltipArrow.addClass(arrowPlacement);
     }
 
     return {
@@ -143,8 +144,8 @@ angular.module('lt.tooltip', [])
         link: function($scope, $el, $attrs) {
             var el = $el[0],
                 $tooltipEl = angular.element(el.querySelector('.tooltip')),
-                $content = angular.element(el.querySelector('.tooltip-content')),
-                $arrow = angular.element(el.querySelector('.tooltip-arrow')),
+                $tooltipContent = angular.element(el.querySelector('.tooltip-content')),
+                $tooltipArrow = angular.element(el.querySelector('.tooltip-arrow')),
                 direction = $attrs.direction || TOOLTIP_DEFAULT_DIRECTION,
                 template = $attrs.template || $attrs.content || TOOLTIP_DEFAULT_TEXT,
                 directions = DEFAULT_DIRECTION_PRIORITY,
@@ -155,7 +156,7 @@ angular.module('lt.tooltip', [])
             // Make sure the template has been put in the DOM before retrieval
             // of dimensions. Otherwise, the dimensions will be reported
             // (incorrectly) without the content.
-            $content.html(template);
+            $tooltipContent.html(template);
 
             dimensions = getDimensions($el),
             position = calculatePosition(dimensions, direction);
@@ -172,7 +173,7 @@ angular.module('lt.tooltip', [])
             $tooltipEl.css('top', position.top + 'px');
             $tooltipEl.css('left', position.left + 'px');
 
-            positionArrow($arrow, direction);
+            positionArrow($tooltipArrow, direction);
 
             el.addEventListener('mouseover', function() {
                 $tooltipEl.addClass('show');
